@@ -1,12 +1,9 @@
 using System;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using ZeroToOverkill.IoC;
 
 
 namespace ZeroToOverkill
@@ -39,12 +36,13 @@ namespace ZeroToOverkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddBusiness();
         }
-        public void ConfigureContainer(Autofac.ContainerBuilder builder)
-        {
+        //public void ConfigureContainer(ContainerBuilder builder)
+        //{
 
-            builder.RegisterModule<AutoFacModule>();
-        }
+        //    builder.RegisterModule<AutoFacModule>();
+        //}
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -53,7 +51,7 @@ namespace ZeroToOverkill
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvcWithDefaultRoute();
+            app.UseMvc();
         }
     }
 }

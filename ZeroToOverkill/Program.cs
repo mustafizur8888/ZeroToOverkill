@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog;
@@ -31,7 +26,15 @@ namespace ZeroToOverkill
                 Layout = @"${data:format=HH\:mm\:ss} ${level} ${message} ${exception}"
             };
             config.AddTarget(consoleTarget);
-            config.AddRule(LogLevel.Info,LogLevel.Fatal, consoleTarget);
+
+            var fileTarget = new FileTarget("file")
+            {
+                FileName = "${basedir}/file.log",
+                Layout= @"${data:format=HH\:mm\:ss} ${level} ${message} ${exception} ${ndlc}"
+            };
+            config.AddTarget(fileTarget);
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, consoleTarget);
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, fileTarget);
             LogManager.Configuration = config;
         }
 
@@ -39,6 +42,7 @@ namespace ZeroToOverkill
                 .ConfigureLogging(builder =>
                 {
                     builder.ClearProviders();
+                    builder.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
                 })
                 .UseNLog()
                 .UseServiceProviderFactory(new AutofacServiceProviderFactory())

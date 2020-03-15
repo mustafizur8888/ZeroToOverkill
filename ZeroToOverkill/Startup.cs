@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
+using ZeroToOverkill.Middlewares;
 
 namespace ZeroToOverkill
 {
@@ -50,7 +50,7 @@ namespace ZeroToOverkill
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseMiddleware<RequestTimingAdHocMiddleware>();
             app.UseMvc();
         }
     }

@@ -22,7 +22,7 @@ namespace ZeroToOverkill
             var config = new LoggingConfiguration();
             var consoleTarget = new ColoredConsoleTarget("coloredConsole")
             {
-                Layout = @"${data:format=HH\:mm\:ss} ${level} ${message} ${exception}"
+                Layout = @"${data:format=HH\:mm\:ss} ${logger} ${level} ${message} ${exception}"
             };
             config.AddTarget(consoleTarget);
 
@@ -32,8 +32,9 @@ namespace ZeroToOverkill
                 Layout= @"${data:format=HH\:mm\:ss} ${level} ${message} ${exception} ${ndlc}"
             };
             config.AddTarget(fileTarget);
+           // config.AddRule(LogLevel.Trace, LogLevel.Info, consoleTarget, "ZeroToOverkill.*");
             config.AddRule(LogLevel.Info, LogLevel.Fatal, consoleTarget);
-            config.AddRule(LogLevel.Info, LogLevel.Fatal, fileTarget);
+             config.AddRule(LogLevel.Info, LogLevel.Fatal, fileTarget);
             LogManager.Configuration = config;
         }
 

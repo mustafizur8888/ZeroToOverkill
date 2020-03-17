@@ -19,7 +19,7 @@ namespace ZeroToOverkill.Middlewares
             var watch = Stopwatch.StartNew();
             await next(context);
             watch.Stop();;
-            _logger.LogWarning("Request took {requestTime}ms", watch.ElapsedMilliseconds);
+            _logger.LogTrace("Request took {requestTime}ms", watch.ElapsedMilliseconds);
 
         }
     }

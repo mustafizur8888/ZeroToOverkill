@@ -21,7 +21,7 @@ namespace ZeroToOverkill.Middlewares
             var watch = Stopwatch.StartNew();
             await _next(context);
             watch.Stop();
-            logger.LogWarning("Request took {requestTime}ms", watch.ElapsedMilliseconds);
+            logger.LogTrace("Request took {requestTime}ms", watch.ElapsedMilliseconds);
 
         }
     }

@@ -36,6 +36,7 @@ namespace ZeroToOverkill
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(option => option.EnableEndpointRouting = false);
+            services.AddTransient<RequestTimingFactoryMiddleware>();
             services.AddBusiness();
         }
         //public void ConfigureContainer(ContainerBuilder builder)
@@ -51,6 +52,7 @@ namespace ZeroToOverkill
                 app.UseDeveloperExceptionPage();
             }
             app.UseMiddleware<RequestTimingAdHocMiddleware>();
+            app.UseMiddleware<RequestTimingFactoryMiddleware>();
             app.UseMvc();
         }
     }

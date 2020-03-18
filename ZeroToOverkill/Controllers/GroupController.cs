@@ -1,5 +1,6 @@
 ﻿using Business.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using ZeroToOverkill.Mapping;
 using ZeroToOverkill.Models;
 
@@ -16,16 +17,17 @@ namespace ZeroToOverkill.Controllers
         }
         [HttpGet]
         [Route("")]
-        public IActionResult Index()
+        public async Task<IActionResult> IndexAsync()
         {
-            return View(_groupService.GetAll().ToViewModel());
+            var result = await _groupService.GetAllAsync();
+            return View(result.ToViewModel());
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult Details(long id)
+        public async Task<IActionResult> DetailsAsync(long id)
         {
-            var group = _groupService.GetById(id);
+            var group = await _groupService.GetByIdAsync(id);
             if (group == null)
             {
                 return NotFound();
@@ -36,9 +38,9 @@ namespace ZeroToOverkill.Controllers
         [HttpPost]
         [Route("{id}")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(long id, GroupViewModel model)
+        public async Task<IActionResult> EditAsync(long id, GroupViewModel model)
         {
-            var group = _groupService.Update(model.ToServiceModel());
+            var group = await _groupService.UpdateAsync(model.ToServiceModel());
             if (group == null)
             {
                 return NotFound();
@@ -55,9 +57,9 @@ namespace ZeroToOverkill.Controllers
         [HttpPost]
         [Route("create")]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(GroupViewModel model)
+        public async Task<IActionResult> CreateAsync(GroupViewModel model)
         {
-            _groupService.Add(model.ToServiceModel());
+            await _groupService.AddAsync(model.ToServiceModel());
             return RedirectToAction("Index");
         }
     }

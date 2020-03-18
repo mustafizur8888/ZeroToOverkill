@@ -42,7 +42,7 @@ namespace ZeroToOverkill
                 option.EnableEndpointRouting = false;
                 option.Filters.Add<DemoActionFilter>();
             });
-
+                
             services.AddTransient<RequestTimingFactoryMiddleware>();
             services.AddBusiness();
         }

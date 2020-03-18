@@ -18,7 +18,7 @@ namespace ZeroToOverkill
         {
             _configuration = configuration;
             string value = _configuration.GetValue<string>("Logging:LogLevel:Microsoft");
-
+               
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.

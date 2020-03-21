@@ -1,4 +1,5 @@
-﻿using Business.Services;
+﻿using System.Threading;
+using Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using ZeroToOverkill.Mapping;
@@ -17,17 +18,17 @@ namespace ZeroToOverkill.Controllers
         }
         [HttpGet]
         [Route("")]
-        public async Task<IActionResult> IndexAsync()
+        public async Task<IActionResult> IndexAsync(CancellationToken ct)
         {
-            var result = await _groupService.GetAllAsync();
+            var result = await _groupService.GetAllAsync(ct);
             return View(result.ToViewModel());
         }
 
         [HttpGet]
         [Route("{id}")]
-        public async Task<IActionResult> DetailsAsync(long id)
+        public async Task<IActionResult> DetailsAsync(long id, CancellationToken ct)
         {
-            var group = await _groupService.GetByIdAsync(id);
+            var group = await _groupService.GetByIdAsync(id, ct);
             if (group == null)
             {
                 return NotFound();
@@ -38,9 +39,9 @@ namespace ZeroToOverkill.Controllers
         [HttpPost]
         [Route("{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAsync(long id, GroupViewModel model)
+        public async Task<IActionResult> EditAsync(long id, GroupViewModel model, CancellationToken ct)
         {
-            var group = await _groupService.UpdateAsync(model.ToServiceModel());
+            var group = await _groupService.UpdateAsync(model.ToServiceModel(), ct);
             if (group == null)
             {
                 return NotFound();
@@ -57,9 +58,9 @@ namespace ZeroToOverkill.Controllers
         [HttpPost]
         [Route("create")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateAsync(GroupViewModel model)
+        public async Task<IActionResult> CreateAsync(GroupViewModel model, CancellationToken ct)
         {
-            await _groupService.AddAsync(model.ToServiceModel());
+            await _groupService.AddAsync(model.ToServiceModel(), ct);
             return RedirectToAction("Index");
         }
     }

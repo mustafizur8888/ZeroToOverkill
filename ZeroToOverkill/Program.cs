@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -11,10 +12,12 @@ namespace ZeroToOverkill
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             ConfigureNLog();
-            CreateHostBuilder(args).Build().Run();
+            var host = CreateHostBuilder(args).Build();
+            await host.EnsureDbUpToDate();
+            host.Run();
         }
 
         private static void ConfigureNLog()
@@ -29,12 +32,12 @@ namespace ZeroToOverkill
             var fileTarget = new FileTarget("file")
             {
                 FileName = "${basedir}/file.log",
-                Layout= @"${data:format=HH\:mm\:ss} ${level} ${message} ${exception} ${ndlc}"
+                Layout = @"${data:format=HH\:mm\:ss} ${level} ${message} ${exception} ${ndlc}"
             };
             config.AddTarget(fileTarget);
-           // config.AddRule(LogLevel.Trace, LogLevel.Info, consoleTarget, "ZeroToOverkill.*");
+            // config.AddRule(LogLevel.Trace, LogLevel.Info, consoleTarget, "ZeroToOverkill.*");
             config.AddRule(LogLevel.Info, LogLevel.Fatal, consoleTarget);
-             config.AddRule(LogLevel.Info, LogLevel.Fatal, fileTarget);
+            config.AddRule(LogLevel.Info, LogLevel.Fatal, fileTarget);
             LogManager.Configuration = config;
         }
 

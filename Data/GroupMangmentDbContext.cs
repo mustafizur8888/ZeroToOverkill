@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Data.Configurations;
 using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +10,8 @@ namespace Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-         
+            modelBuilder.HasDefaultSchema("public");
+            modelBuilder.ApplyConfiguration(new GroupEntityConfiguration());
         }
 
         public DbSet<GroupEntity> GroupEntities { get; set; }

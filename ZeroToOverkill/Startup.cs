@@ -1,7 +1,11 @@
 using System;
+using Business.Impl.Services;
+using Business.Services;
+using Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,12 +17,12 @@ namespace ZeroToOverkill
     public class Startup
     {
         private readonly IConfiguration _configuration;
-             
+
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
             string value = _configuration.GetValue<string>("Logging:LogLevel:Microsoft");
-               
+
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -40,11 +44,12 @@ namespace ZeroToOverkill
             services.AddMvc(option =>
             {
                 option.EnableEndpointRouting = false;
-                option.Filters.Add<DemoActionFilter>();
             });
-                
-            services.AddTransient<RequestTimingFactoryMiddleware>();
-            services.AddBusiness();
+            services.AddDbContext<GroupMangmentDbContext>(
+                option => { option.UseNpgsql(_configuration.GetConnectionString("GroupMangmentDbContext")); }
+            );
+            services.AddScoped<IGroupService, GroupService>();
+            //services.AddBusiness();
         }
         //public void ConfigureContainer(ContainerBuilder builder)
         //{
@@ -58,8 +63,10 @@ namespace ZeroToOverkill
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseMiddleware<RequestTimingAdHocMiddleware>();
-            app.UseMiddleware<RequestTimingFactoryMiddleware>();
+
+            //app.UseMiddleware<RequestTimingAdHocMiddleware>();
+
+            //app.UseMiddleware<RequestTimingFactoryMiddleware>();
             app.UseMvc();
             app.Run(async (context) =>
             {

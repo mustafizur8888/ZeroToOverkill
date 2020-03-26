@@ -1,7 +1,11 @@
-﻿
+﻿@model GroupViewModel
 @{
     ViewData["Title"] = "Details";
 }
 
 <h1>Details</h1>
 
+<form asp-controller="Group" asp-action="Edit">
+    <input asp-for="Name" value="@Model.Name"/>
+    <button type="submit">Save</button>
+</form>

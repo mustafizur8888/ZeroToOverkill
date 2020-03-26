@@ -21,13 +21,13 @@ namespace Business.Impl.Services
         }
         public async Task<IReadOnlyCollection<Group>> GetAllAsync(CancellationToken ct)
         {
-            var groups = await _context.GroupEntities.OrderBy(g=>g.Id).ToListAsync(ct);
+            var groups = await _context.GroupEntities.AsNoTracking().OrderBy(g=>g.Id).ToListAsync(ct);
             return groups.ToService();
         }
 
         public async Task<Group> GetByIdAsync(long id, CancellationToken ct)
         {
-            var group = await _context.GroupEntities.SingleAsync(g => g.Id == id, ct);
+            var group = await _context.GroupEntities.AsNoTracking().SingleAsync(g => g.Id == id, ct);
             return group.ToService();
         }
 

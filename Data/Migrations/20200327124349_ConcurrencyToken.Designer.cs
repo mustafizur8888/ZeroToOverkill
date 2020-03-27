@@ -2,15 +2,17 @@
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Data.Migrations
 {
     [DbContext(typeof(GroupMangmentDbContext))]
-    partial class GroupMangmentDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200327124349_ConcurrencyToken")]
+    partial class ConcurrencyToken
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,15 +31,14 @@ namespace Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
-                    b.Property<uint>("RowVersion")
+                    b.Property<uint>("xmin")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnName("xmin")
                         .HasColumnType("xid");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Groups");
+                    b.ToTable("GroupEntities");
                 });
 #pragma warning restore 612, 618
         }

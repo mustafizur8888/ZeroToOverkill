@@ -10,6 +10,12 @@ namespace Data.Configurations
         {
             builder.HasKey(e => e.Id);
             builder.Property(e => e.Id).UseSerialColumn();
+
+            builder.Property(e => e.RowVersion)
+                .HasColumnName("xmin")
+                .HasColumnType("xid")
+                .ValueGeneratedOnAddOrUpdate()
+                .IsConcurrencyToken();
         }
     }
 }

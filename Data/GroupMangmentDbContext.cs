@@ -14,6 +14,6 @@ namespace Data
             modelBuilder.ApplyConfiguration(new GroupEntityConfiguration());
         }
 
-        public DbSet<GroupEntity> GroupEntities { get; set; }
+        public DbSet<GroupEntity> Groups { get; set; }
     }
 }

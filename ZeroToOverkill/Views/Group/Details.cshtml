@@ -6,6 +6,7 @@
 <h1>Details</h1>
 
 <form asp-controller="Group" asp-action="Edit">
-    <input asp-for="Name" value="@Model.Name"/>
+    <input asp-for="Name" value="@Model.Name" />
+    <input asp-for="RowVersion" type="hidden" />
     <button type="submit">Save</button>
 </form>

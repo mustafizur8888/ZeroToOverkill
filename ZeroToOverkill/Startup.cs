@@ -41,10 +41,7 @@ namespace ZeroToOverkill
         //}
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(option =>
-            {
-                option.EnableEndpointRouting = false;
-            });
+            services.AddRequiredMvcComponents();
             services.AddDbContext<GroupMangmentDbContext>(
                 option => { option.UseNpgsql(_configuration.GetConnectionString("GroupMangmentDbContext")); }
             );
@@ -67,7 +64,10 @@ namespace ZeroToOverkill
             //app.UseMiddleware<RequestTimingAdHocMiddleware>();
 
             //app.UseMiddleware<RequestTimingFactoryMiddleware>();
-            app.UseMvc();
+            app.UseMvc(routes => routes.MapRoute(
+                name: "default",
+                template: "{controller}/{action}")
+            );
             app.Run(async (context) =>
             {
                 await context.Response.WriteAsync("No middleware could handle the request");

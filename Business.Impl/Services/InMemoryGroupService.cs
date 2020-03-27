@@ -41,5 +41,10 @@ namespace Business.Impl.Services
             _groups.Add(group);
             return Task.FromResult(group);
         }
+
+        public Task RemoveAsync(long id, CancellationToken ct)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

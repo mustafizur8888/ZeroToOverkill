@@ -21,7 +21,7 @@ namespace Business.Impl.Services
         }
         public async Task<IReadOnlyCollection<Group>> GetAllAsync(CancellationToken ct)
         {
-            var groups = await _context.Groups.AsNoTracking().OrderBy(g=>g.Id).ToListAsync(ct);
+            var groups = await _context.Groups.AsNoTracking().OrderBy(g => g.Id).ToListAsync(ct);
             return groups.ToService();
         }
 
@@ -43,6 +43,13 @@ namespace Business.Impl.Services
             var added = _context.Groups.Add(group.ToEntity());
             await _context.SaveChangesAsync();
             return added.Entity.ToService();
+        }
+
+        public async Task RemoveAsync(long id, CancellationToken ct)
+        {
+            var group = await _context.Groups.AsNoTracking().SingleAsync(g => g.Id == id, ct);
+            _context.Groups.Remove(group);
+            await _context.SaveChangesAsync(ct);
         }
     }
 }

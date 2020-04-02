@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business", "Business\Busine
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Business.Impl", "Business.Impl\Business.Impl.csproj", "{CE70A80C-A92A-4034-9E84-0D497078E7A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{5D14D05E-F674-4622-89A9-974956176C4D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{5D14D05E-F674-4622-89A9-974956176C4D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Auth", "Auth\Auth.csproj", "{473E998E-8ECF-4E25-A253-4B24A5781006}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5D14D05E-F674-4622-89A9-974956176C4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D14D05E-F674-4622-89A9-974956176C4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D14D05E-F674-4622-89A9-974956176C4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{473E998E-8ECF-4E25-A253-4B24A5781006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{473E998E-8ECF-4E25-A253-4B24A5781006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{473E998E-8ECF-4E25-A253-4B24A5781006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{473E998E-8ECF-4E25-A253-4B24A5781006}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -8,7 +8,7 @@ using ZeroToOverkill.Models;
 namespace ZeroToOverkill.Controllers
 {
     [ApiController]
-    [Route("Group")]
+    [Route("api/Group")]
     public class GroupController : ControllerBase
     {
         private readonly IGroupService _groupService;

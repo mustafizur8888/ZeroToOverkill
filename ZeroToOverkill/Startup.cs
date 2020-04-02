@@ -46,6 +46,7 @@ namespace ZeroToOverkill
                 option => { option.UseNpgsql(_configuration.GetConnectionString("GroupMangmentDbContext")); }
             );
             services.AddScoped<IGroupService, GroupService>();
+            services.AddCors();
             //services.AddBusiness();
         }
         //public void ConfigureContainer(ContainerBuilder builder)
@@ -62,7 +63,15 @@ namespace ZeroToOverkill
             }
 
             //app.UseMiddleware<RequestTimingAdHocMiddleware>();
-
+            if (!String.IsNullOrEmpty(_configuration["AllowedOrigins"]))
+            {
+                var origins = _configuration["AllowedOrigins"].Split(";");
+                app.UseCors(x => x
+                    .WithOrigins(origins)
+                    .AllowAnyMethod()
+                    .AllowCredentials()
+                    .AllowAnyHeader());
+            }
             //app.UseMiddleware<RequestTimingFactoryMiddleware>();
             app.UseMvc(routes => routes.MapRoute(
                 name: "default",

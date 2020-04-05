@@ -33,7 +33,15 @@ namespace Auth
                 {
                     options.UseNpgsql(_configuration.GetConnectionString("AuthDbContext"));
                 });
-            services.AddIdentity<PlayBallUser, IdentityRole>()
+            services.AddIdentity<PlayBallUser, IdentityRole>(
+                    options =>
+                    {
+                        options.Password.RequireDigit = false;
+                        options.Password.RequireLowercase = false;
+                        options.Password.RequireNonAlphanumeric = false;
+                        options.Password.RequireUppercase = false;
+                    }
+                    )
                 .AddEntityFrameworkStores<AuthDbContext>()
                 .AddDefaultTokenProviders();
 

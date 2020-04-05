@@ -1,0 +1,34 @@
+﻿@page
+@model Auth.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div>
+        <label asp-for="Input.Email"></label>
+        <input asp-for="Input.Email" class="form-control" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Input.Password"></label>
+        <input asp-for="Input.Password" class="form-control" />
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Input.RememberMe"></label>
+        <input asp-for="Input.RememberMe" class="form-control" />
+        @Html.DisplayNameFor(m => m.Input.RememberMe)
+    </div>
+    <div class="form-group">
+        <button type="submit">Log in</button>
+    </div>
+    <div>
+        <p> 
+            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
+        </p>
+    </div>
+</form>
+

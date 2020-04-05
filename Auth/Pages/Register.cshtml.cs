@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Auth.Data;
 using Microsoft.AspNetCore.Authorization;
@@ -59,17 +60,43 @@ namespace Auth.Pages
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPOstAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
+            //returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
                 var user = new PlayBallUser
                 {
-                    UserName = 
+                    UserName = Input.Email,
+                    Email = Input.Email,
                 };
-            }
+                var result = await _userManager.CreateAsync(user,Input.Password);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("new User ceated.");
 
+                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callbakUrl = Url.Page("/ConfirmEmail",
+                        null, new { userId = user.Id, code = code },
+                        Request.Scheme);
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirm Email", $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbakUrl)}'>Clicing here </a>");
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    if (string.IsNullOrWhiteSpace(returnUrl))
+                    {
+                        return LocalRedirect("~/");
+                    }
+                    else
+                    {
+                        return Redirect(returnUrl);
+                    }
+                }
+
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+            }
             return Page();
         }
     }
